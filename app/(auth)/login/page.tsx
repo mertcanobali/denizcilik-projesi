@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Anchor, ArrowRight, Loader2, Lock, Mail } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Anchor, ArrowRight, Loader2, Lock, Mail } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     const formData = new FormData(e.currentTarget);
-    const email = formData.get('email');
-    const password = formData.get('password');
+    const email = formData.get("email");
+    const password = formData.get("password");
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Giriş yapılamadı.');
+        setError(data.error || "Giriş yapılamadı.");
       } else {
-        router.push(data.redirect || '/dashboard');
+        router.push(data.redirect || "/dashboard");
       }
     } catch (err) {
-      setError('Bağlantı hatası oluştu.');
+      setError("Bağlantı hatası oluştu.");
     } finally {
       setLoading(false);
     }
@@ -54,20 +54,25 @@ export default function LoginPage() {
           </div>
           <span className="text-3xl font-bold tracking-tight">Shiplytics</span>
         </div>
-        
+
         <div className="relative z-10 max-w-lg">
           <h1 className="text-5xl font-extrabold tracking-tight mb-6 leading-tight">
-            Şirket Verilerini<br/>Güvenle Yönetin
+            Şirket Verilerini
+            <br />
+            Güvenle Yönetin
           </h1>
           <p className="text-blue-200 text-lg leading-relaxed">
-            Tüm gemilerinizden gelen canlı raporları tek bir ekranda, güvenle ve kolayca inceleyin.
+            Tüm gemilerinizden gelen canlı raporları tek bir ekranda, güvenle ve
+            kolayca inceleyin.
           </p>
         </div>
 
         <div className="relative z-10 flex items-center space-x-4 text-blue-300/80 text-sm">
-          <span>&copy; 2026 Shiplytics Inc.</span>
+          <span>&copy; 2026 Shiplytics</span>
           <span>•</span>
-          <a href="#" className="hover:text-white transition-colors">Gizlilik Politikası</a>
+          <a href="#" className="hover:text-white transition-colors">
+            Gizlilik Politikası
+          </a>
         </div>
       </div>
 
@@ -75,8 +80,12 @@ export default function LoginPage() {
       <div className="flex items-center justify-center p-8 bg-slate-50 relative">
         <div className="w-full max-w-md bg-white p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100/60 relative z-10 backdrop-blur-xl">
           <div className="mb-8 text-center">
-            <h2 className="text-3xl font-bold text-slate-800 tracking-tight">Hoş Geldiniz</h2>
-            <p className="mt-2 text-slate-500">Şirket paneline erişmek için giriş yapın</p>
+            <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+              Hoş Geldiniz
+            </h2>
+            <p className="mt-2 text-slate-500">
+              Şirket paneline erişmek için giriş yapın
+            </p>
           </div>
 
           {error && (
@@ -87,7 +96,9 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700 ml-1">E-posta Adresi</label>
+              <label className="text-sm font-semibold text-slate-700 ml-1">
+                E-posta Adresi
+              </label>
               <div className="relative">
                 <Mail className="w-5 h-5 absolute left-3.5 top-3 text-slate-400" />
                 <input
@@ -102,8 +113,10 @@ export default function LoginPage() {
 
             <div className="space-y-1.5">
               <div className="flex justify-between items-center ml-1">
-                <label className="text-sm font-semibold text-slate-700">Şifre</label>
-                <a href="#" className="text-xs font-semibold text-blue-600 hover:text-blue-700">Şifremi Unuttum?</a>
+                <label className="text-sm font-semibold text-slate-700">
+                  Şifre
+                </label>
+                {/* <a href="#" className="text-xs font-semibold text-blue-600 hover:text-blue-700">Şifremi Unuttum?</a> */}
               </div>
               <div className="relative">
                 <Lock className="w-5 h-5 absolute left-3.5 top-3 text-slate-400" />
@@ -132,7 +145,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
         </div>
       </div>
     </div>
