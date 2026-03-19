@@ -34,3 +34,34 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+-- 1. Tablo: Şirketler (Web Girişi)
+CREATE TABLE companies (
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) UNIQUE NOT NULL,
+password TEXT NOT NULL
+);
+
+-- 2. Tablo: Gemiler (Mobil Girişi - Şirkete Bağlı)
+CREATE TABLE ships (
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+company_id UUID REFERENCES companies(id),
+ship_name VARCHAR(100) NOT NULL,
+username VARCHAR(50) UNIQUE NOT NULL, -- Gemicinin gireceği ID
+password TEXT NOT NULL -- Gemicinin gireceği Şifre
+);
+
+-- 3. Tablo: Raporlar (Tüm Teknik Veriler)
+CREATE TABLE ship_reports (
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+ship_id UUID REFERENCES ships(id),
+report_data JSONB NOT NULL, -- Yakıt, Makine, Seyir verileri burada
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Önce bir şirket ekle
+INSERT INTO companies (name, email, password) VALUES ('Vera Marine', 'vera@test.com', '123456');
+
+-- O şirkete bağlı bir gemi hesabı ekle
+INSERT INTO ships (company_id, ship_name, username, password)
+VALUES ((SELECT id FROM companies LIMIT 1), 'M/V Istanbul', 'istanbul_gemi', 'gemi123'); veri tabanı tasarımımız bu şekilde
